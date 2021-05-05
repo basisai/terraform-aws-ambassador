@@ -17,7 +17,7 @@ module "helm" {
   hpa_enabled           = var.hpa_enabled
   hpa_min_replicas      = var.hpa_min_replica
   hpa_max_replicas      = var.hpa_max_replica
-  hpa_metrics           = var.hpa_max_replica
+  hpa_metrics           = var.hpa_metrics
   pod_disruption_budget = var.pod_disruption_budget
 
   env = merge(
