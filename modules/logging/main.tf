@@ -96,32 +96,31 @@ resource "aws_s3_bucket" "l7_access_logs" {
 # See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
 locals {
   elb_account_id = {
-    us-east-1      = 127311923021
-    us-east-2      = 33677994240
-    us-west-1      = 27434742980
-    us-west-2      = 797873946194
-    af-south-1     = 98369216593
-    ca-central-1   = 985666609251
-    eu-central-1   = 54676820928
-    eu-west-1      = 156460612806
-    eu-west-2      = 652711504416
-    eu-south-1     = 635631232127
-    eu-west-3      = 9996457667
-    eu-north-1     = 897822967062
-    ap-east-1      = 754344448648
-    ap-northeast-1 = 582318560864
-    ap-northeast-2 = 600734575887
-    ap-northeast-3 = 383597477331
-    ap-southeast-1 = 114774131450
-    ap-southeast-2 = 783225319266
-    ap-south-1     = 718504428378
-    me-south-1     = 76674570225
-    sa-east-1      = 507241528517
-    us-gov-west-1  = 48591011584
-    us-gov-east-1  = 190560391635
-    cn-north-1     = 638102146993
-    cn-northwest-1 = 37604701340
-
+    us-east-1      = "127311923021"
+    us-east-2      = "33677994240"
+    us-west-1      = "27434742980"
+    us-west-2      = "797873946194"
+    af-south-1     = "98369216593"
+    ca-central-1   = "985666609251"
+    eu-central-1   = "54676820928"
+    eu-west-1      = "156460612806"
+    eu-west-2      = "652711504416"
+    eu-south-1     = "635631232127"
+    eu-west-3      = "9996457667"
+    eu-north-1     = "897822967062"
+    ap-east-1      = "754344448648"
+    ap-northeast-1 = "582318560864"
+    ap-northeast-2 = "600734575887"
+    ap-northeast-3 = "383597477331"
+    ap-southeast-1 = "114774131450"
+    ap-southeast-2 = "783225319266"
+    ap-south-1     = "718504428378"
+    me-south-1     = "76674570225"
+    sa-east-1      = "507241528517"
+    us-gov-west-1  = "48591011584"
+    us-gov-east-1  = "190560391635"
+    cn-north-1     = "638102146993"
+    cn-northwest-1 = "37604701340"
   }
 }
 
