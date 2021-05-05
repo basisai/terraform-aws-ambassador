@@ -12,6 +12,11 @@ This module makes a set of assumptions:
 If the assumptions do not hold, you can look at the source code of the root module and make use of
 the individual modules.
 
+## Pre-requisites
+
+- EKS Cluster
+- Install [AWS LoadBalancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/)
+
 ## Requirements
 
 | Name | Version |
