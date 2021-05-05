@@ -10,8 +10,14 @@ variable "ambassador_service_name" {
   default     = ""
 }
 
+variable "ambassador_http_port" {
+  description = "HTTP port number for Ambassador service"
+  type        = number
+  default     = 80
+}
+
 variable "ambassador_ssl_port" {
-  description = "SSL port number for Ambassador"
+  description = "SSL port number for Ambassador service"
   type        = number
   default     = 443
 }
@@ -43,6 +49,12 @@ variable "tags" {
 
 variable "annotations" {
   description = "Additional annotations for Ingress"
+  type        = map(string)
+  default     = {}
+}
+
+variable "annotations_plaintext" {
+  description = "Additional annotations for plaintext Ingress workaround"
   type        = map(string)
   default     = {}
 }
@@ -79,6 +91,81 @@ variable "idle_timeout_seconds" {
   description = "The idle timeout value, in seconds. The valid range is 1-4000 seconds."
   type        = number
   default     = 60
+}
+
+variable "listen_ports" {
+  description = "Ports to listen to on the ELB. If HTTP/2 is enabled, only HTTPS is supported. You can still enable plaintext redirection."
+  type        = list(map(number))
+  default     = [{ HTTPS = 443 }]
+}
+
+variable "enable_plaintext_redirect" {
+  description = "Redirect HTTP to HTTPS"
+  type        = bool
+  default     = true
+}
+
+variable "ip_address_type" {
+  description = "IP Address type of the listener."
+  type        = string
+  default     = "ipv4"
+
+  validation {
+    condition     = contains(["ipv4", "dualstack"], var.ip_address_type)
+    error_message = "The variable ip_address_type can only be either 'ipv4' or 'dualstack'."
+  }
+}
+
+variable "target_type" {
+  description = "Target type of the backends. See https://kubernetes-sigs.github.io/aws-load-balancer-controller/guide/ingress/annotations/#target-type"
+  type        = string
+  default     = "ip"
+
+  validation {
+    condition     = contains(["ip", "instance"], var.target_type)
+    error_message = "The variable target_type can only be either 'ip' or 'instance'."
+  }
+}
+
+variable "backend_protocol_https" {
+  description = "Use HTTPS with backend Ambassador"
+  type        = bool
+  default     = true
+}
+
+variable "backend_protocol_version" {
+  description = "Backend protocol version. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-protocol-version"
+  type        = string
+  default     = "HTTP2"
+
+  validation {
+    condition     = contains(["HTTP1", "HTTP2", "GRPC"], var.backend_protocol_version)
+    error_message = "The variable backend_protocol_version can only be either 'HTTP1', 'HTTP2' or 'GRPC'."
+  }
+}
+
+variable "subnets" {
+  description = "List of subnets for ALB to route traffic to. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-subnets.html"
+  type        = list(string)
+  default     = []
+}
+
+variable "health_check" {
+  description = "Health check configuration"
+  type = object({
+    success_codes             = string
+    interval_seconds          = number
+    timeout_seconds           = number
+    healthy_threshold_count   = number
+    unhealthy_threshold_count = number
+  })
+  default = {
+    success_codes             = "200-300"
+    interval_seconds          = 10
+    timeout_seconds           = 2
+    healthy_threshold_count   = 5
+    unhealthy_threshold_count = 2
+  }
 }
 
 variable "enable_http2" {
