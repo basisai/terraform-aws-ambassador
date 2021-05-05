@@ -17,6 +17,9 @@ the individual modules.
 - EKS Cluster
 - Install [AWS LoadBalancer Controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/)
 
+  You can use our [Terraform module](https://registry.terraform.io/modules/basisai/lb-controller/aws/latest)
+  if you prefer.
+
 ## Requirements
 
 | Name | Version |
