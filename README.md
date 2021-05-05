@@ -34,6 +34,7 @@ the individual modules.
 | <a name="module_dns"></a> [dns](#module\_dns) | ./modules/dns |  |
 | <a name="module_helm"></a> [helm](#module\_helm) | basisai/ambassador/helm | ~> 0.1.0, >= 0.1.1 |
 | <a name="module_ingress"></a> [ingress](#module\_ingress) | ./modules/ingress |  |
+| <a name="module_ingress_logging"></a> [ingress\_logging](#module\_ingress\_logging) | ./modules/logging |  |
 
 ## Resources
 
@@ -49,11 +50,11 @@ the individual modules.
 | <a name="input_access_log"></a> [access\_log](#input\_access\_log) | Enable access logging for L7 Load Balancer | `bool` | `false` | no |
 | <a name="input_admin_service_annotations"></a> [admin\_service\_annotations](#input\_admin\_service\_annotations) | Annotations for the admin service | `map(string)` | <pre>{<br>  "prometheus.io/scrape": "true"<br>}</pre> | no |
 | <a name="input_affinity"></a> [affinity](#input\_affinity) | Pod Affinity | `any` | `{}` | no |
-| <a name="input_ambassador_configurations"></a> [ambassador\_configurations](#input\_ambassador\_configurations) | Configuration options for Ambassador. See https://www.getambassador.io/docs/edge-stack/latest/topics/running/ambassador/ | `map(any)` | <pre>{<br>  "diagnostics": {<br>    "enabled": false<br>  }<br>}</pre> | no |
+| <a name="input_ambassador_configurations"></a> [ambassador\_configurations](#input\_ambassador\_configurations) | Configuration options for Ambassador. See https://www.getambassador.io/docs/edge-stack/latest/topics/running/ambassador/ | `any` | <pre>{<br>  "diagnostics": {<br>    "enabled": false<br>  }<br>}</pre> | no |
 | <a name="input_ambassador_id"></a> [ambassador\_id](#input\_ambassador\_id) | Ambassador ID | `string` | `"default"` | no |
 | <a name="input_auth_service_config"></a> [auth\_service\_config](#input\_auth\_service\_config) | Configuration for AuthService | `map` | `{}` | no |
 | <a name="input_auth_service_create"></a> [auth\_service\_create](#input\_auth\_service\_create) | Deploy AuthService | `bool` | `true` | no |
-| <a name="input_certificates"></a> [certificates](#input\_certificates) | ARN of certificates in ACM to use | `list(string)` | n/a | yes |
+| <a name="input_certificates"></a> [certificates](#input\_certificates) | ARN of certificates in ACM to use | `list(string)` | `[]` | no |
 | <a name="input_chart_namespace"></a> [chart\_namespace](#input\_chart\_namespace) | Namespace to run the chart in | `string` | `"ambassador"` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"6.6.3"` | no |
 | <a name="input_crds_create"></a> [crds\_create](#input\_crds\_create) | Create CRDs | `bool` | `true` | no |
@@ -122,5 +123,6 @@ the individual modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_ambassador_id"></a> [ambassador\_id](#output\_ambassador\_id) | Ambassador ID |
 | <a name="output_lb_arn"></a> [lb\_arn](#output\_lb\_arn) | ARN of the LB |
 | <a name="output_lb_dns_name"></a> [lb\_dns\_name](#output\_lb\_dns\_name) | DNS name of the LB |

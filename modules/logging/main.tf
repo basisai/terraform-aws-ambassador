@@ -1,16 +1,10 @@
 locals {
-  l7_logging_bucket_create = var.access_log && var.create_access_log_bucket
-
-  l7_logging_prefix = coalesce(var.l7_logging_prefix, var.name)
-
-  l7_logging_prefixes = [for prefix in distinct(concat([local.l7_logging_prefix], var.l7_addiitonal_logging_prefixes)) :
+  l7_logging_prefixes = [for prefix in var.l7_logging_prefixes :
     "arn:aws:s3:::${var.l7_logging_bucket}/${prefix}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
   ]
 }
 
 resource "aws_s3_bucket" "l7_access_logs" {
-  count = local.l7_logging_bucket_create ? 1 : 0
-
   bucket = var.l7_logging_bucket
   tags   = var.tags
 
@@ -96,7 +90,7 @@ resource "aws_s3_bucket" "l7_access_logs" {
     }
   }
 
-  policy = data.aws_iam_policy_document.l7_logging_policy[0].json
+  policy = data.aws_iam_policy_document.l7_logging_policy.json
 }
 
 # See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
@@ -132,8 +126,6 @@ locals {
 }
 
 data "aws_iam_policy_document" "l7_logging_elb" {
-  count = local.l7_logging_bucket_create ? 1 : 0
-
   statement {
     actions   = ["s3:PutObject"]
     resources = local.l7_logging_prefixes
@@ -172,10 +164,8 @@ data "aws_iam_policy_document" "l7_logging_elb" {
 }
 
 data "aws_iam_policy_document" "l7_logging_policy" {
-  count = local.l7_logging_bucket_create ? 1 : 0
-
   override_policy_documents = compact([
-    data.aws_iam_policy_document.l7_logging_elb[0].json,
+    data.aws_iam_policy_document.l7_logging_elb.json,
     var.l7_logging_bucket_policy,
   ])
 }

@@ -28,12 +28,9 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_s3_bucket.l7_access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [kubernetes_ingress.ambassador](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/ingress) | resource |
 | [kubernetes_ingress.ambassador_plaintext](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/ingress) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
-| [aws_iam_policy_document.l7_logging_elb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.l7_logging_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
@@ -49,8 +46,7 @@ No modules.
 | <a name="input_annotations_plaintext"></a> [annotations\_plaintext](#input\_annotations\_plaintext) | Additional annotations for plaintext Ingress workaround | `map(string)` | `{}` | no |
 | <a name="input_backend_protocol_https"></a> [backend\_protocol\_https](#input\_backend\_protocol\_https) | Use HTTPS with backend Ambassador | `bool` | `true` | no |
 | <a name="input_backend_protocol_version"></a> [backend\_protocol\_version](#input\_backend\_protocol\_version) | Backend protocol version. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-protocol-version | `string` | `"HTTP2"` | no |
-| <a name="input_certificates"></a> [certificates](#input\_certificates) | ARN of certificates in ACM to use | `list(string)` | n/a | yes |
-| <a name="input_create_access_log_bucket"></a> [create\_access\_log\_bucket](#input\_create\_access\_log\_bucket) | Create Access Log bucket. Set to false if you want to use an existing bucket. You will have to set the IAM permissions yourself. | `bool` | `false` | no |
+| <a name="input_certificates"></a> [certificates](#input\_certificates) | ARN of certificates in ACM to use | `list(string)` | `[]` | no |
 | <a name="input_desync_mitigation_mode"></a> [desync\_mitigation\_mode](#input\_desync\_mitigation\_mode) | Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive. | `string` | `"defensive"` | no |
 | <a name="input_drop_invalid_header_fields"></a> [drop\_invalid\_header\_fields](#input\_drop\_invalid\_header\_fields) | Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false. | `bool` | `false` | no |
 | <a name="input_enable_http2"></a> [enable\_http2](#input\_enable\_http2) | Enable HTTP/2 on the ELB | `bool` | `true` | no |
@@ -59,14 +55,8 @@ No modules.
 | <a name="input_health_check"></a> [health\_check](#input\_health\_check) | Health check configuration | <pre>object({<br>    success_codes             = string<br>    interval_seconds          = number<br>    timeout_seconds           = number<br>    healthy_threshold_count   = number<br>    unhealthy_threshold_count = number<br>  })</pre> | <pre>{<br>  "healthy_threshold_count": 5,<br>  "interval_seconds": 10,<br>  "success_codes": "200-300",<br>  "timeout_seconds": 2,<br>  "unhealthy_threshold_count": 2<br>}</pre> | no |
 | <a name="input_idle_timeout_seconds"></a> [idle\_timeout\_seconds](#input\_idle\_timeout\_seconds) | The idle timeout value, in seconds. The valid range is 1-4000 seconds. | `number` | `60` | no |
 | <a name="input_ip_address_type"></a> [ip\_address\_type](#input\_ip\_address\_type) | IP Address type of the listener. | `string` | `"ipv4"` | no |
-| <a name="input_l7_addiitonal_logging_prefixes"></a> [l7\_addiitonal\_logging\_prefixes](#input\_l7\_addiitonal\_logging\_prefixes) | Additional prefixes you want to include in the resource policy for the bucket | `list(string)` | `[]` | no |
-| <a name="input_l7_logging_bucket"></a> [l7\_logging\_bucket](#input\_l7\_logging\_bucket) | Name of L7 Access Logging bucket to use or create | `string` | `""` | no |
-| <a name="input_l7_logging_bucket_policy"></a> [l7\_logging\_bucket\_policy](#input\_l7\_logging\_bucket\_policy) | Bucket policy document, if any | `string` | `""` | no |
-| <a name="input_l7_logging_expiration"></a> [l7\_logging\_expiration](#input\_l7\_logging\_expiration) | Expiration lifecycle rules for access logging bucket | <pre>list(object({<br>    enabled = bool<br><br>    date = optional(string) # Specifies the date after which you want the corresponding action to take effect.<br>    days = optional(number) # Specifies the number of days after object creation when the specific rule action takes effect.<br>    id   = optional(string)<br>  }))</pre> | <pre>[<br>  {<br>    "days": 730,<br>    "enabled": true,<br>    "id": "Delete2Years"<br>  }<br>]</pre> | no |
-| <a name="input_l7_logging_prefix"></a> [l7\_logging\_prefix](#input\_l7\_logging\_prefix) | Prefix to create log objects. Defaults to var.name | `string` | `""` | no |
-| <a name="input_l7_logging_transition"></a> [l7\_logging\_transition](#input\_l7\_logging\_transition) | L7 Logging class storage transitions | <pre>list(object({<br>    enabled       = bool<br>    storage_class = string<br><br>    date = optional(string) # Specifies the date after which you want the corresponding action to take effect.<br>    days = optional(number) # Specifies the number of days after object creation when the specific rule action takes effect.<br>    id   = optional(string)<br>  }))</pre> | <pre>[<br>  {<br>    "days": 30,<br>    "enabled": true,<br>    "id": "IA",<br>    "storage_class": "STANDARD_IA"<br>  },<br>  {<br>    "days": 365,<br>    "enabled": true,<br>    "id": "Glacier",<br>    "storage_class": "GLACIER"<br>  }<br>]</pre> | no |
-| <a name="input_l7_object_default_retention"></a> [l7\_object\_default\_retention](#input\_l7\_object\_default\_retention) | Object lock default retention configuration. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-overview.html | <pre>object({<br>    mode  = string<br>    days  = optional(number)<br>    years = optional(number)<br>  })</pre> | <pre>{<br>  "mode": "GOVERNANCE",<br>  "years": 2<br>}</pre> | no |
-| <a name="input_l7_object_lock_enabled"></a> [l7\_object\_lock\_enabled](#input\_l7\_object\_lock\_enabled) | Enable Object Lock on the bucket. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html | `bool` | `false` | no |
+| <a name="input_l7_logging_bucket"></a> [l7\_logging\_bucket](#input\_l7\_logging\_bucket) | Name of L7 Access Logging bucket to use | `string` | `""` | no |
+| <a name="input_l7_logging_prefix"></a> [l7\_logging\_prefix](#input\_l7\_logging\_prefix) | Prefix to create log objects. Defaults to ingress name | `string` | `""` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | Labels for ingress | `map(string)` | <pre>{<br>  "app.kubernetes.io/instance": "ambassador",<br>  "app.kubernetes.io/managed-by": "Terraform",<br>  "app.kubernetes.io/name": "ambassador"<br>}</pre> | no |
 | <a name="input_listen_ports"></a> [listen\_ports](#input\_listen\_ports) | Ports to listen to on the ELB. If HTTP/2 is enabled, only HTTPS is supported. You can still enable plaintext redirection. | `list(map(number))` | <pre>[<br>  {<br>    "HTTPS": 443<br>  }<br>]</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Ingress | `string` | `"ambassador"` | no |

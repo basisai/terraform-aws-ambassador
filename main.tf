@@ -6,8 +6,9 @@ module "helm" {
   chart_namespace = var.chart_namespace
   chart_version   = var.chart_version
 
-  crds_enable = each.value.crds_enable
-  crds_keep   = each.value.crds_keep
+  crds_enable = var.crds_enable
+  crds_create = var.crds_create
+  crds_keep   = var.crds_keep
 
   image_repository = var.image_repository
   image_tag        = var.image_tag
@@ -30,19 +31,19 @@ module "helm" {
 
   service_type = var.enable_l7_load_balancing ? "ClusterIP" : "LoadBalancer"
   service_annotations = merge(
-    each.value.service_annotations,
+    var.service_annotations,
     var.enable_l7_load_balancing ? {} : merge(
       {
         "service.beta.kubernetes.io/aws-load-balancer-type" = "nlb"
       },
-      var.internet_facing ? {} : { "service.beta.kubernetes.io/aws-load-balancer-type" = "nlb" },
+      var.internet_facing ? {} : { "service.beta.kubernetes.io/aws-load-balancer-internal" = "0.0.0.0/0" },
     ),
     {
       "getambassador.io/config" = yamlencode({
         apiVersion    = "ambassador/v1"
         kind          = "Module"
-        name          = var.ambassador_id
-        ambassador_id = each.value.id
+        name          = "ambassador"
+        ambassador_id = var.ambassador_id
         config = merge(
           {
             xff_num_trusted_hops = var.enable_l7_load_balancing ? 1 : 0
@@ -62,7 +63,35 @@ module "helm" {
   resources           = var.resources
   priority_class_name = var.priority_class_name
   tolerations         = var.tolerations
-  affinity            = var.affinity
+  affinity = merge({
+    podAntiAffinity = {
+      requiredDuringSchedulingIgnoredDuringExecution = [
+        {
+          labelSelector = {
+            matchLabels = {
+              "app.kubernetes.io/name"     = "ambassador"
+              "app.kubernetes.io/instance" = var.release_name
+            }
+          }
+          topologyKey = "kubernetes.io/hostname"
+        }
+      ]
+      preferredDuringSchedulingIgnoredDuringExecution = [
+        {
+          podAffinityTerm = {
+            labelSelector = {
+              matchLabels = {
+                "app.kubernetes.io/name"     = "ambassador"
+                "app.kubernetes.io/instance" = var.release_name
+              }
+            }
+            topologyKey = "topology.kubernetes.io/zone"
+          }
+          weight = 100
+        }
+      ]
+    }
+  }, var.affinity)
 
   ##########################################
   # Ambassador Edge Stack Configuration

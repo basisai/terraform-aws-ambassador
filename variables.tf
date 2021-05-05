@@ -181,7 +181,7 @@ variable "ambassador_id" {
 
 variable "ambassador_configurations" {
   description = "Configuration options for Ambassador. See https://www.getambassador.io/docs/edge-stack/latest/topics/running/ambassador/"
-  type        = map(any)
+  type        = any
   default = {
     diagnostics = {
       enabled = false
@@ -253,6 +253,7 @@ variable "admin_service_annotations" {
 variable "certificates" {
   description = "ARN of certificates in ACM to use"
   type        = list(string)
+  default     = []
 }
 
 variable "ssl_policy" {
@@ -421,7 +422,7 @@ variable "l7_addiitonal_logging_prefixes" {
 ##########################################
 variable "enable_aes" {
   description = "Enable Edge Stack"
-  default     = true
+  default     = false
 }
 
 variable "license_key" {

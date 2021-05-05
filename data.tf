@@ -4,7 +4,7 @@ locals {
 
 data "kubernetes_service" "ambassador" {
   depends_on = [module.helm]
-  count      = var.enable_l7_load_balancing ? 1 : 0
+  count      = var.enable_l7_load_balancing ? 0 : 1
 
   metadata {
     name      = var.release_name

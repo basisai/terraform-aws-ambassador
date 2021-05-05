@@ -70,7 +70,7 @@ variable "scheme" {
   default     = "internet-facing"
 
   validation {
-    condition     = contains(var.scheme, ["internal", "internet-facing"])
+    condition     = contains(["internal", "internet-facing"], var.scheme)
     error_message = "The scheme value must be either 'internal' or 'internet-facing'."
   }
 }
@@ -228,95 +228,14 @@ variable "access_log" {
   default     = false
 }
 
-variable "create_access_log_bucket" {
-  description = "Create Access Log bucket. Set to false if you want to use an existing bucket. You will have to set the IAM permissions yourself."
-  type        = bool
-  default     = false
-}
-
 variable "l7_logging_bucket" {
-  description = "Name of L7 Access Logging bucket to use or create"
-  type        = string
-  default     = ""
-}
-
-variable "l7_logging_expiration" {
-  description = "Expiration lifecycle rules for access logging bucket"
-  type = list(object({
-    enabled = bool
-
-    date = optional(string) # Specifies the date after which you want the corresponding action to take effect.
-    days = optional(number) # Specifies the number of days after object creation when the specific rule action takes effect.
-    id   = optional(string)
-  }))
-  default = [
-    {
-      id      = "Delete2Years"
-      enabled = true
-      days    = 730
-    },
-  ]
-}
-
-variable "l7_logging_transition" {
-  description = "L7 Logging class storage transitions"
-  type = list(object({
-    enabled       = bool
-    storage_class = string
-
-    date = optional(string) # Specifies the date after which you want the corresponding action to take effect.
-    days = optional(number) # Specifies the number of days after object creation when the specific rule action takes effect.
-    id   = optional(string)
-  }))
-  default = [
-    {
-      id            = "IA"
-      enabled       = true
-      days          = 30
-      storage_class = "STANDARD_IA"
-    },
-    {
-      id            = "Glacier"
-      enabled       = true
-      days          = 365
-      storage_class = "GLACIER"
-    },
-  ]
-}
-
-variable "l7_object_lock_enabled" {
-  description = "Enable Object Lock on the bucket. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html"
-  type        = bool
-  default     = false
-}
-
-variable "l7_object_default_retention" {
-  description = "Object lock default retention configuration. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-overview.html"
-  type = object({
-    mode  = string
-    days  = optional(number)
-    years = optional(number)
-  })
-  default = {
-    mode  = "GOVERNANCE"
-    years = 2
-  }
-}
-
-variable "l7_logging_bucket_policy" {
-  description = "Bucket policy document, if any"
+  description = "Name of L7 Access Logging bucket to use"
   type        = string
   default     = ""
 }
 
 variable "l7_logging_prefix" {
-  description = "Prefix to create log objects. Defaults to var.name"
+  description = "Prefix to create log objects. Defaults to ingress name"
   type        = string
   default     = ""
-}
-
-variable "l7_addiitonal_logging_prefixes" {
-  description = "Additional prefixes you want to include in the resource policy for the bucket"
-  type        = list(string)
-  default     = []
 }

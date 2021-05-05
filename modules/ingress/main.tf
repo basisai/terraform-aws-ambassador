@@ -42,8 +42,8 @@ resource "kubernetes_ingress" "ambassador" {
             "waf.fail_open.enabled"                           = var.waf_fail_open
 
             "access_logs.s3.enabled" = var.access_log
-            "access_logs.s3.bucket " = var.access_log ? coalescelist(aws_s3_bucket.l7_access_logs.*.bucket, [var.l7_logging_bucket])[0] : null
-            "access_logs.s3.prefix " = var.access_log ? var.l7_logging_prefix : null
+            "access_logs.s3.bucket " = var.access_log ? var.l7_logging_bucket : null
+            "access_logs.s3.prefix " = var.access_log ? coalesce(var.l7_logging_prefix, var.name) : null
           } : "${k}=${v}" if v != null
         ])
 
@@ -58,8 +58,8 @@ resource "kubernetes_ingress" "ambassador" {
       { for k, v in {
         "alb.ingress.kubernetes.io/subnets" = join(",", var.subnets)
 
-        "alb.ingress.kubernetes.io/inbound-cidrs"   = var.access_control.cidrs
-        "alb.ingress.kubernetes.io/security-groups" = var.access_control.security_groups
+        "alb.ingress.kubernetes.io/inbound-cidrs"   = try(join(",", var.access_control.cidrs), null)
+        "alb.ingress.kubernetes.io/security-groups" = try(join(",", var.access_control.security_groups), null)
 
         "alb.ingress.kubernetes.io/wafv2-acl-arn"              = var.wafv2_arn
         "alb.ingress.kubernetes.io/shield-advanced-protection" = var.shield_advanced_protect ? "true" : null
