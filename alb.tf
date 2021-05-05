@@ -23,9 +23,9 @@ module "ingress" {
   wafv2_arn                  = var.wafv2_arn
   shield_advanced_protect    = var.shield_advanced_protect
 
-  access_log               = var.access_log
-  l7_logging_bucket        = var.create_access_log_bucket ? module.ingress_logging[0].name : var.l7_logging_bucket
-  l7_logging_prefix        = local.logging_prefix
+  access_log        = var.access_log
+  l7_logging_bucket = var.create_access_log_bucket ? module.ingress_logging[0].name : var.l7_logging_bucket
+  l7_logging_prefix = local.logging_prefix
 
   labels = var.labels
   tags   = var.tags
@@ -35,13 +35,13 @@ module "ingress_logging" {
   source = "./modules/logging"
   count  = var.create_access_log_bucket ? 1 : 0
 
-  l7_logging_bucket              = var.l7_logging_bucket
-  l7_logging_expiration          = var.l7_logging_expiration
-  l7_logging_transition          = var.l7_logging_transition
-  l7_object_lock_enabled         = var.l7_object_lock_enabled
-  l7_object_default_retention    = var.l7_object_default_retention
-  l7_logging_bucket_policy       = var.l7_logging_bucket_policy
-  l7_logging_prefixes            = distinct(concat([local.logging_prefix], var.l7_addiitonal_logging_prefixes))
+  l7_logging_bucket           = var.l7_logging_bucket
+  l7_logging_expiration       = var.l7_logging_expiration
+  l7_logging_transition       = var.l7_logging_transition
+  l7_object_lock_enabled      = var.l7_object_lock_enabled
+  l7_object_default_retention = var.l7_object_default_retention
+  l7_logging_bucket_policy    = var.l7_logging_bucket_policy
+  l7_logging_prefixes         = distinct(concat([local.logging_prefix], var.l7_addiitonal_logging_prefixes))
 
   tags = var.tags
 }
