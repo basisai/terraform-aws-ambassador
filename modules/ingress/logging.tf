@@ -130,6 +130,7 @@ locals {
 
   }
 }
+
 data "aws_iam_policy_document" "l7_logging_elb" {
   count = local.l7_logging_bucket_create ? 1 : 0
 

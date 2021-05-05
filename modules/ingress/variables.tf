@@ -46,7 +46,6 @@ variable "tags" {
   }
 }
 
-
 variable "annotations" {
   description = "Additional annotations for Ingress"
   type        = map(string)
@@ -79,6 +78,7 @@ variable "scheme" {
 variable "certificates" {
   description = "ARN of certificates in ACM to use"
   type        = list(string)
+  default     = []
 }
 
 variable "ssl_policy" {
