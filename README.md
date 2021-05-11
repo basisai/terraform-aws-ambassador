@@ -62,6 +62,8 @@ the individual modules.
 | <a name="input_ambassador_id"></a> [ambassador\_id](#input\_ambassador\_id) | Ambassador ID | `string` | `"default"` | no |
 | <a name="input_auth_service_config"></a> [auth\_service\_config](#input\_auth\_service\_config) | Configuration for AuthService | `map` | `{}` | no |
 | <a name="input_auth_service_create"></a> [auth\_service\_create](#input\_auth\_service\_create) | Deploy AuthService | `bool` | `true` | no |
+| <a name="input_backend_protocol_https"></a> [backend\_protocol\_https](#input\_backend\_protocol\_https) | Use HTTPS with backend Ambassador | `bool` | `true` | no |
+| <a name="input_backend_protocol_version"></a> [backend\_protocol\_version](#input\_backend\_protocol\_version) | Backend protocol version. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-protocol-version | `string` | `"HTTP2"` | no |
 | <a name="input_certificates"></a> [certificates](#input\_certificates) | ARN of certificates in ACM to use | `list(string)` | `[]` | no |
 | <a name="input_chart_namespace"></a> [chart\_namespace](#input\_chart\_namespace) | Namespace to run the chart in | `string` | `"ambassador"` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"6.6.3"` | no |
@@ -73,7 +75,7 @@ the individual modules.
 | <a name="input_desync_mitigation_mode"></a> [desync\_mitigation\_mode](#input\_desync\_mitigation\_mode) | Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive. | `string` | `"defensive"` | no |
 | <a name="input_dns_names"></a> [dns\_names](#input\_dns\_names) | Map of DNS names to create records for. Key is DNS name, value is the Zone ID | `map(string)` | `{}` | no |
 | <a name="input_drop_invalid_header_fields"></a> [drop\_invalid\_header\_fields](#input\_drop\_invalid\_header\_fields) | Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false. | `bool` | `false` | no |
-| <a name="input_enable_aes"></a> [enable\_aes](#input\_enable\_aes) | Enable Edge Stack | `bool` | `true` | no |
+| <a name="input_enable_aes"></a> [enable\_aes](#input\_enable\_aes) | Enable Edge Stack | `bool` | `false` | no |
 | <a name="input_enable_http2"></a> [enable\_http2](#input\_enable\_http2) | Enable HTTP/2 on the ELB | `bool` | `true` | no |
 | <a name="input_enable_l7_load_balancing"></a> [enable\_l7\_load\_balancing](#input\_enable\_l7\_load\_balancing) | Use L7 (ALB) for load balancing. Otherwise, L4 (NLB) is used | `bool` | `true` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment variables for container | `map(string)` | `{}` | no |

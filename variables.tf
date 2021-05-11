@@ -268,6 +268,23 @@ variable "subnets" {
   default     = []
 }
 
+variable "backend_protocol_https" {
+  description = "Use HTTPS with backend Ambassador"
+  type        = bool
+  default     = true
+}
+
+variable "backend_protocol_version" {
+  description = "Backend protocol version. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-protocol-version"
+  type        = string
+  default     = "HTTP2"
+
+  validation {
+    condition     = contains(["HTTP1", "HTTP2", "GRPC"], var.backend_protocol_version)
+    error_message = "The variable backend_protocol_version can only be either 'HTTP1', 'HTTP2' or 'GRPC'."
+  }
+}
+
 variable "enable_http2" {
   description = "Enable HTTP/2 on the ELB"
   type        = bool
