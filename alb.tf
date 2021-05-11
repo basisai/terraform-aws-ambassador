@@ -15,6 +15,9 @@ module "ingress" {
   ssl_policy   = var.ssl_policy
   subnets      = var.subnets
 
+  backend_protocol_https   = var.backend_protocol_https
+  backend_protocol_version = var.backend_protocol_version
+
   enable_http2               = var.enable_http2
   desync_mitigation_mode     = var.desync_mitigation_mode
   drop_invalid_header_fields = var.drop_invalid_header_fields
