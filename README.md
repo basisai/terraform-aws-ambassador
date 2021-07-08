@@ -67,6 +67,7 @@ the individual modules.
 | <a name="input_certificates"></a> [certificates](#input\_certificates) | ARN of certificates in ACM to use | `list(string)` | `[]` | no |
 | <a name="input_chart_namespace"></a> [chart\_namespace](#input\_chart\_namespace) | Namespace to run the chart in | `string` | `"ambassador"` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"6.6.3"` | no |
+| <a name="input_container_security_context"></a> [container\_security\_context](#input\_container\_security\_context) | Container securityContext | `map` | `{}` | no |
 | <a name="input_crds_create"></a> [crds\_create](#input\_crds\_create) | Create CRDs | `bool` | `true` | no |
 | <a name="input_crds_enable"></a> [crds\_enable](#input\_crds\_enable) | Enable CRDs | `bool` | `true` | no |
 | <a name="input_crds_keep"></a> [crds\_keep](#input\_crds\_keep) | Keep CRDs | `bool` | `true` | no |
@@ -103,6 +104,7 @@ the individual modules.
 | <a name="input_license_key_secret_name"></a> [license\_key\_secret\_name](#input\_license\_key\_secret\_name) | Secret name for license | `string` | `""` | no |
 | <a name="input_load_balancer_source_ranges"></a> [load\_balancer\_source\_ranges](#input\_load\_balancer\_source\_ranges) | Load balancer source range for L4 Load balancing | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_pod_disruption_budget"></a> [pod\_disruption\_budget](#input\_pod\_disruption\_budget) | PDB values | `any` | <pre>{<br>  "minAvailable": 1<br>}</pre> | no |
+| <a name="input_pod_security_context"></a> [pod\_security\_context](#input\_pod\_security\_context) | Pod securityContext | `map` | `{}` | no |
 | <a name="input_priority_class_name"></a> [priority\_class\_name](#input\_priority\_class\_name) | Priority class names | `string` | `""` | no |
 | <a name="input_rate_limit_create"></a> [rate\_limit\_create](#input\_rate\_limit\_create) | Create the RateLimitService | `bool` | `true` | no |
 | <a name="input_redis_affinity"></a> [redis\_affinity](#input\_redis\_affinity) | Affinity for redis pods | `map` | `{}` | no |
