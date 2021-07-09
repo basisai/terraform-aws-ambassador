@@ -169,7 +169,7 @@ variable "pod_security_context" {
 
 variable "container_security_context" {
   description = "Container securityContext"
-  type        = map(string)
+  type        = map(any)
   default     = {}
 }
 
