@@ -13,7 +13,7 @@ data "aws_lb" "lb" {
 
 # tflint-ignore: aws_route53_record_invalid_name
 resource "aws_route53_record" "alias" {
-  for_each = var.create_dns_records ? var.dns_names : []
+  for_each = var.create_dns_records ? var.dns_names : {}
 
   zone_id = each.value
   name    = each.key
