@@ -1,3 +1,8 @@
+variable "create_dns_records" {
+  description = "Create DNS records"
+  default     = true
+}
+
 variable "lb_dns_name" {
   description = "LoadBalancer DNS name"
 }
