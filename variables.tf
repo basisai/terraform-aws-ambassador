@@ -212,6 +212,12 @@ variable "tags" {
   }
 }
 
+variable "create_dns_records" {
+  description = "Create DNS records"
+  type        = bool
+  default     = true
+}
+
 variable "dns_names" {
   description = "Map of DNS names to create records for. Key is DNS name, value is the Zone ID"
   type        = map(string)
