@@ -29,7 +29,6 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_route53_record.alias](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_lb.lb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/lb) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
@@ -37,7 +36,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_dns_names"></a> [dns\_names](#input\_dns\_names) | Map of DNS names to create records for. Key is DNS name, value is the Zone ID | `map(string)` | n/a | yes |
+| <a name="input_create_dns_records"></a> [create\_dns\_records](#input\_create\_dns\_records) | Create DNS records | `bool` | `true` | no |
+| <a name="input_dns_names"></a> [dns\_names](#input\_dns\_names) | Map of DNS names to create records for. Key is DNS name, value is the Zone ID | `map(string)` | `{}` | no |
 | <a name="input_lb_dns_name"></a> [lb\_dns\_name](#input\_lb\_dns\_name) | LoadBalancer DNS name | `any` | n/a | yes |
 
 ## Outputs
@@ -45,3 +45,4 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_lb"></a> [lb](#output\_lb) | LB Object |
+| <a name="output_lb_arn"></a> [lb\_arn](#output\_lb\_arn) | ARN of LB |

@@ -214,6 +214,7 @@ variable "tags" {
 
 variable "create_dns_records" {
   description = "Create DNS records"
+  type        = bool
   default     = true
 }
 
