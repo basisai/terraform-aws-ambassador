@@ -153,6 +153,10 @@ variable "subnets" {
 variable "health_check" {
   description = "Health check configuration"
   type = object({
+    protocol = string
+    port     = string
+    path     = string
+
     success_codes             = string
     interval_seconds          = number
     timeout_seconds           = number
@@ -160,6 +164,10 @@ variable "health_check" {
     unhealthy_threshold_count = number
   })
   default = {
+    protocol = "HTTP"
+    port     = "8877"
+    path     = "/ambassador/v0/check_ready"
+
     success_codes             = "200-300"
     interval_seconds          = 10
     timeout_seconds           = 2
