@@ -19,9 +19,9 @@ resource "kubernetes_ingress" "ambassador" {
         "alb.ingress.kubernetes.io/backend-protocol"         = var.backend_protocol_https ? "HTTPS" : "HTTP"
         "alb.ingress.kubernetes.io/backend-protocol-version" = var.backend_protocol_version
 
-        "alb.ingress.kubernetes.io/healthcheck-protocol"         = var.backend_protocol_https ? "HTTPS" : "HTTP"
-        "alb.ingress.kubernetes.io/healthcheck-port"             = var.backend_protocol_https ? "https" : "http"
-        "alb.ingress.kubernetes.io/healthcheck-path"             = "/ambassador/v0/check_alive"
+        "alb.ingress.kubernetes.io/healthcheck-protocol"         = var.health_check.protocol
+        "alb.ingress.kubernetes.io/healthcheck-port"             = var.health_check.port
+        "alb.ingress.kubernetes.io/healthcheck-path"             = var.health_check.path
         "alb.ingress.kubernetes.io/success-codes"                = var.health_check.success_codes
         "alb.ingress.kubernetes.io/healthcheck-interval-seconds" = tostring(var.health_check.interval_seconds)
         "alb.ingress.kubernetes.io/healthcheck-timeout-seconds"  = tostring(var.health_check.timeout_seconds)
