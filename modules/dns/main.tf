@@ -1,6 +1,9 @@
-# Host name of a LB is <LB_NAME>-<LB_ID>.elb.<region>.amazonaws.com
+# Host name of a LB is [internal-]<LB_NAME>-<LB_ID>.elb.<region>.amazonaws.com
 locals {
-  lb      = split("-", split(".", var.lb_dns_name)[0])
+  # Internal L7 LB has the `internal-` prefix
+  stripped_dns_name = var.enable_l7_load_balancing && var.internet_facing ? var.lb_dns_name : substr(var.lb_dns_name, length("internal-"), -1)
+
+  lb      = split("-", split(".", local.stripped_dns_name)[0])
   lb_name = join("-", slice(local.lb, 0, length(local.lb) - 1))
 }
 

@@ -38,7 +38,9 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_dns_records"></a> [create\_dns\_records](#input\_create\_dns\_records) | Create DNS records | `bool` | `true` | no |
 | <a name="input_dns_names"></a> [dns\_names](#input\_dns\_names) | Map of DNS names to create records for. Key is DNS name, value is the Zone ID | `map(string)` | `{}` | no |
-| <a name="input_lb_dns_name"></a> [lb\_dns\_name](#input\_lb\_dns\_name) | LoadBalancer DNS name | `any` | n/a | yes |
+| <a name="input_enable_l7_load_balancing"></a> [enable\_l7\_load\_balancing](#input\_enable\_l7\_load\_balancing) | Use L7 (ALB) for load balancing. Otherwise, L4 (NLB) is used | `bool` | `false` | no |
+| <a name="input_internet_facing"></a> [internet\_facing](#input\_internet\_facing) | Whether the Load Balancer, L7 or L4 is internet facing | `bool` | `true` | no |
+| <a name="input_lb_dns_name"></a> [lb\_dns\_name](#input\_lb\_dns\_name) | LoadBalancer DNS name | `string` | n/a | yes |
 
 ## Outputs
 
