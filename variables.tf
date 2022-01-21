@@ -1,7 +1,7 @@
 variable "release_name" {
   description = "Chart release name"
   type        = string
-  default     = "ambassador"
+  default     = "emissary-ingress"
 }
 
 variable "chart_namespace" {
@@ -13,41 +13,34 @@ variable "chart_namespace" {
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
   type        = string
-  default     = "6.7.2"
+  default     = "7.2.0"
 }
 
-variable "crds_enable" {
-  description = "Enable CRDs"
+variable "manage_crd" {
+  description = "Manage the CRD for Emissary Ingress"
   type        = bool
-  default     = true
+  default     = false
 }
 
-variable "crds_create" {
-  description = "Create CRDs"
-  type        = bool
-  default     = true
-}
-
-variable "crds_keep" {
-  description = "Keep CRDs"
-  type        = bool
-  default     = true
+variable "crd_manifest" {
+  description = "Provide a custom CRD Manifest to be created. Otherwise, the version corresponding to var.image_tag will be used"
+  type        = string
+  default     = null
 }
 
 variable "image_repository" {
   # One of
-  # docker.io/datawire/ambassador
-  # quay.io/datawire/ambassador
-  # gcr.io/datawire/ambassador
+  # gcr.io/datawire/emissary
+  # docker.io/emissaryingress/emissary
   description = "Image repository for Ambassador image"
   type        = string
-  default     = "quay.io/datawire/ambassador"
+  default     = "docker.io/emissaryingress/emissary"
 }
 
 variable "image_tag" {
   description = "Image tag for Ambassador image"
   type        = string
-  default     = "1.13.9"
+  default     = "2.1.0"
 }
 
 variable "replicas" {
@@ -149,6 +142,12 @@ variable "labels" {
   }
 }
 
+variable "create_default_listeners" {
+  description = "Whether Emissary should be created with default listeners: HTTP on port 8080, HTTPS on port 8443. See https://www.getambassador.io/docs/emissary/latest/howtos/configure-communications/"
+  type        = bool
+  default     = true
+}
+
 variable "env" {
   description = "Environment variables for container"
   type        = map(string)
@@ -156,9 +155,9 @@ variable "env" {
 }
 
 variable "env_raw" {
-  description = "Raw environment variables for container"
-  type        = list(any)
-  default     = []
+  description = "Raw environment variables for container in YAML"
+  type        = string
+  default     = ""
 }
 
 variable "pod_security_context" {
@@ -450,102 +449,4 @@ variable "l7_addiitonal_logging_prefixes" {
   description = "Additional prefixes you want to include in the resource policy for the bucket"
   type        = list(string)
   default     = []
-}
-
-##########################################
-# Ambassador Edge Stack Configuration
-##########################################
-variable "enable_aes" {
-  description = "Enable Edge Stack"
-  default     = false
-}
-
-variable "license_key" {
-  description = "License key for AES"
-  default     = ""
-}
-
-variable "license_key_create_secret" {
-  description = "Create secret for license key"
-  default     = true
-}
-
-variable "license_key_secret_name" {
-  description = "Secret name for license"
-  default     = ""
-}
-
-variable "license_key_secret_annotations" {
-  description = "License key secret annotations"
-  default     = {}
-}
-
-variable "create_dev_portal_mappings" {
-  description = "# The DevPortal is exposed at /docs/ endpoint in the AES container. Setting this to true will automatically create routes for the DevPortal."
-  default     = true
-}
-
-variable "redis_url" {
-  description = "Custom Redis URL"
-  default     = ""
-}
-
-variable "redis_create" {
-  description = "Create Redis"
-  default     = true
-}
-
-variable "redis_image" {
-  description = "Redis image"
-  default     = "redis"
-}
-
-variable "redis_tag" {
-  description = "Redis image tag"
-  default     = "5.0.1"
-}
-
-variable "redis_deployment_annotations" {
-  description = "Redis deployment annotations"
-  default     = {}
-}
-
-variable "redis_service_annotations" {
-  description = "Redis service annotations"
-  default     = {}
-}
-
-variable "redis_resources" {
-  description = "Redis resources"
-  default     = {}
-}
-
-variable "redis_affinity" {
-  description = "Affinity for redis pods"
-  default     = {}
-}
-
-variable "redis_tolerations" {
-  description = "Redis tolerations"
-  default     = []
-}
-
-variable "auth_service_create" {
-  description = "Deploy AuthService"
-  default     = true
-}
-
-variable "auth_service_config" {
-  description = "Configuration for AuthService"
-  default     = {}
-}
-
-variable "rate_limit_create" {
-  description = "Create the RateLimitService"
-  default     = true
-}
-
-variable "registry_create" {
-  description = "Enable Projects beta feature"
-  default     = false
 }

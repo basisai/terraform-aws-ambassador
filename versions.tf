@@ -12,8 +12,16 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.1"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.13"
+    }
+    http = {
+      source  = "hashicorp/http"
+      version = ">= 2.0"
+    }
   }
-  required_version = ">= 0.14"
+  required_version = ">= 1.0"
 
   experiments = [module_variable_optional_attrs]
 }
